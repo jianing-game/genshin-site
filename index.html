@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>原神选号系统</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Microsoft YaHei";
+    background:#0f172a;
+    color:white;
+}
+
+/* 顶部 */
+.header{
+    height:80px;
+    background:rgba(0,0,0,0.45);
+    backdrop-filter:blur(10px);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 40px;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+.logo{
+    font-size:36px;
+    font-weight:bold;
+    color:#ffd166;
+}
+
+/* 页面布局 */
+.main{
+    display:flex;
+    min-height:calc(100vh - 80px);
+}
+
+/* 左侧后台 */
+.sidebar{
+    width:320px;
+    background:#111827;
+    padding:25px;
+    border-right:1px solid rgba(255,255,255,0.1);
+}
+
+.panel{
+    background:#1f2937;
+    padding:20px;
+    border-radius:18px;
+    margin-bottom:20px;
+}
+
+.panel h2{
+    margin-bottom:20px;
+    color:#60a5fa;
+}
+
+.input{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    margin-bottom:15px;
+    background:#374151;
+    color:white;
+    font-size:16px;
+}
+
+textarea{
+    resize:none;
+    height:120px;
+}
+
+.btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:#2563eb;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform:scale(1.02);
+}
+
+/* 右侧选号 */
+.content{
+    flex:1;
+    padding:30px;
+}
+
+.title{
+    font-size:42px;
+    margin-bottom:30px;
+    color:#ffd166;
+}
+
+.cardGrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:#1e293b;
+    border-radius:25px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,0.1);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 25px rgba(0,0,0,0.5);
+}
+
+.top{
+    background:linear-gradient(45deg,#3b82f6,#6366f1);
+    padding:18px;
+}
+
+.accountCode{
+    font-size:28px;
+    font-weight:bold;
+}
+
+.uid{
+    margin-top:8px;
+    opacity:0.9;
+}
+
+.info{
+    padding:20px;
+}
+
+.level{
+    font-size:22px;
+    margin-bottom:20px;
+    color:#7dd3fc;
+}
+
+/* 角色 */
+.characterList{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.character{
+    width:72px;
+    text-align:center;
+}
+
+.avatar{
+    width:72px;
+    height:72px;
+    border-radius:50%;
+    border:3px solid gold;
+    overflow:hidden;
+    position:relative;
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.constellation{
+    position:absolute;
+    bottom:-2px;
+    right:-2px;
+    background:#ff4444;
+    color:white;
+    border-radius:50%;
+    width:24px;
+    height:24px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.charName{
+    margin-top:6px;
+    font-size:14px;
+}
+
+/* 登录遮罩 */
+.loginPage{
+    position:fixed;
+    inset:0;
+    background:#020617;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+
+.loginBox{
+    width:400px;
+    background:#111827;
+    padding:40px;
+    border-radius:25px;
+}
+
+.loginTitle{
+    text-align:center;
+    font-size:38px;
+    margin-bottom:30px;
+    color:#ffd166;
+}
+
+.hidden{
+    display:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- 登录页 -->
+<div class="loginPage" id="loginPage">
+
+    <div class="loginBox">
+
+        <div class="loginTitle">
+            商家后台登录
+        </div>
+
+        <input type="text"
+               id="username"
+               class="input"
+               placeholder="请输入账号">
+
+        <input type="password"
+               id="password"
+               class="input"
+               placeholder="请输入密码">
+
+        <button class="btn"
+                onclick="login()">
+            登录后台
+        </button>
+
+    </div>
+
+</div>
+
+<!-- 顶部 -->
+<div class="header">
+
+    <div class="logo">
+        原神选号系统
+    </div>
+
+</div>
+
+<div class="main">
+
+    <!-- 左侧后台 -->
+    <div class="sidebar">
+
+        <div class="panel">
+
+            <h2>添加账号</h2>
+
+            <input type="text"
+                   id="code"
+                   class="input"
+                   placeholder="账号编码">
+
+            <input type="text"
+                   id="uid"
+                   class="input"
+                   placeholder="UID">
+
+            <input type="text"
+                   id="level"
+                   class="input"
+                   placeholder="冒险等级">
+
+            <textarea id="characters"
+                      class="input"
+                      placeholder="角色格式：
+雷电将军*4
+芙宁娜*2
+那维莱特*0">
+            </textarea>
+
+            <button class="btn"
+                    onclick="addAccount()">
+                发布账号
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- 前端 -->
+    <div class="content">
+
+        <div class="title">
+            全部原神账号
+        </div>
+
+        <div class="cardGrid"
+             id="cardGrid">
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* 登录 */
+const adminUser = "admin";
+const adminPass = "123456";
+
+function login(){
+
+    const user =
+        document.getElementById("username").value;
+
+    const pass =
+        document.getElementById("password").value;
+
+    if(user===adminUser &&
+       pass===adminPass){
+
+        document.getElementById("loginPage")
+            .classList.add("hidden");
+
+    }else{
+
+        alert("账号或密码错误");
+    }
+}
+
+/* 角色头像 */
+const avatarMap = {
+
+"雷电将军":"https://upload-bbs.miyoushe.com/upload/2022/03/08/75276539/8e0c13b93cb96391b7a7b38d4dd4a8a4_638697942617773381.png",
+
+"芙宁娜":"https://upload-os-bbs.hoyolab.com/upload/2023/11/08/75276539/31fdf1df4b0b3c48b4973bb4e4c8c2d4_4416806358579427304.png",
+
+"那维莱特":"https://upload-os-bbs.hoyolab.com/upload/2023/09/27/75276539/0a7dd567f92d53cfd9987f0cbebac2ff_7457413952713104138.png"
+
+};
+
+/* 数据 */
+let accounts = [];
+
+/* 添加账号 */
+function addAccount(){
+
+    const code =
+        document.getElementById("code").value;
+
+    const uid =
+        document.getElementById("uid").value;
+
+    const level =
+        document.getElementById("level").value;
+
+    const chars =
+        document.getElementById("characters")
+            .value
+            .trim()
+            .split("\n");
+
+    const charList = [];
+
+    chars.forEach(line=>{
+
+        if(line.includes("*")){
+
+            const arr = line.split("*");
+
+            charList.push({
+                name:arr[0],
+                cons:arr[1]
+            });
+        }
+    });
+
+    accounts.push({
+        code,
+        uid,
+        level,
+        characters:charList
+    });
+
+    renderAccounts();
+}
+
+/* 渲染 */
+function renderAccounts(){
+
+    const grid =
+        document.getElementById("cardGrid");
+
+    grid.innerHTML = "";
+
+    accounts.forEach(acc=>{
+
+        let charHTML = "";
+
+        acc.characters.forEach(c=>{
+
+            const avatar =
+                avatarMap[c.name] ||
+                "https://upload-static.mihoyo.com/contentweb/20200319/2020031915521697794.png";
+
+            charHTML += `
+
+            <div class="character">
+
+                <div class="avatar">
+
+                    <img src="${avatar}">
+
+                    <div class="constellation">
+                        ${c.cons}
+                    </div>
+
+                </div>
+
+                <div class="charName">
+                    ${c.name}
+                </div>
+
+            </div>
+
+            `;
+        });
+
+        grid.innerHTML += `
+
+        <div class="card">
+
+            <div class="top">
+
+                <div class="accountCode">
+                    编号：${acc.code}
+                </div>
+
+                <div class="uid">
+                    UID：${acc.uid}
+                </div>
+
+            </div>
+
+            <div class="info">
+
+                <div class="level">
+                    冒险等级：${acc.level}
+                </div>
+
+                <div class="characterList">
+
+                    ${charHTML}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+    });
+}
+
+</script>
+
+</body>
+</html>
