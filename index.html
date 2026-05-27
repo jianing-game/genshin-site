@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>原神选号系统</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#0f172a;
+font-family:"Microsoft YaHei";
+color:white;
+}
+
+/* 顶部 */
+
+.top{
+height:90px;
+background:#111827;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:42px;
+font-weight:bold;
+color:#ffd166;
+box-shadow:0 2px 15px rgba(0,0,0,.5);
+}
+
+/* 服务器 */
+
+.serverBox{
+display:flex;
+justify-content:center;
+gap:20px;
+padding:30px;
+flex-wrap:wrap;
+}
+
+.serverBtn{
+padding:16px 35px;
+border:none;
+border-radius:15px;
+font-size:24px;
+cursor:pointer;
+background:#1e293b;
+color:white;
+transition:.3s;
+}
+
+.serverBtn:hover{
+transform:scale(1.05);
+background:#2563eb;
+}
+
+.activeServer{
+background:#2563eb;
+}
+
+/* 区域 */
+
+.area{
+padding:30px;
+}
+
+.title{
+font-size:34px;
+margin-bottom:20px;
+color:#7dd3fc;
+}
+
+/* 标签 */
+
+.grid{
+display:grid;
+grid-template-columns:
+repeat(auto-fill,minmax(130px,1fr));
+gap:18px;
+}
+
+.tag{
+background:#1e293b;
+padding:18px;
+border-radius:15px;
+text-align:center;
+cursor:pointer;
+transition:.3s;
+border:2px solid transparent;
+font-size:18px;
+}
+
+.tag:hover{
+transform:scale(1.05);
+}
+
+.selected{
+border:2px solid #00ff88;
+background:#2563eb;
+}
+
+/* 搜索按钮 */
+
+.searchBtn{
+display:block;
+margin:40px auto;
+padding:18px 70px;
+border:none;
+border-radius:18px;
+font-size:28px;
+cursor:pointer;
+background:linear-gradient(
+45deg,
+#2563eb,
+#7c3aed
+);
+color:white;
+}
+
+/* 结果 */
+
+.resultArea{
+padding:30px;
+display:grid;
+grid-template-columns:
+repeat(auto-fill,minmax(360px,1fr));
+gap:25px;
+}
+
+.card{
+background:#1e293b;
+border-radius:25px;
+overflow:hidden;
+border:1px solid rgba(255,255,255,.1);
+}
+
+.cardTop{
+padding:20px;
+background:linear-gradient(
+45deg,
+#2563eb,
+#7c3aed
+);
+}
+
+.code{
+font-size:28px;
+font-weight:bold;
+}
+
+.uid{
+margin-top:10px;
+font-size:18px;
+}
+
+.level{
+padding:18px;
+font-size:22px;
+color:#7dd3fc;
+}
+
+.infoBox{
+padding:20px;
+line-height:2;
+}
+
+.roleText{
+background:#0f172a;
+padding:12px;
+border-radius:12px;
+margin-bottom:10px;
+}
+
+.weaponText{
+background:#111827;
+padding:12px;
+border-radius:12px;
+margin-bottom:10px;
+color:#ffd166;
+}
+
+.serverText{
+color:#00ff88;
+font-size:20px;
+margin-bottom:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="top">
+原神选号系统
+</div>
+
+<!-- 服务器 -->
+
+<div class="serverBox">
+
+<button class="serverBtn activeServer"
+onclick="changeServer(this,'亚服')">
+亚服
+</button>
+
+<button class="serverBtn"
+onclick="changeServer(this,'欧服')">
+欧服
+</button>
+
+<button class="serverBtn"
+onclick="changeServer(this,'美服')">
+美服
+</button>
+
+<button class="serverBtn"
+onclick="changeServer(this,'港澳台服')">
+港澳台服
+</button>
+
+</div>
+
+<!-- 角色 -->
+
+<div class="area">
+
+<div class="title">
+选择角色
+</div>
+
+<div class="grid" id="roleGrid">
+
+</div>
+
+</div>
+
+<!-- 武器 -->
+
+<div class="area">
+
+<div class="title">
+选择武器
+</div>
+
+<div class="grid" id="weaponGrid">
+
+</div>
+
+</div>
+
+<!-- 搜索 -->
+
+<button class="searchBtn"
+onclick="searchAccount()">
+搜索账号
+</button>
+
+<!-- 搜索结果 -->
+
+<div class="resultArea"
+id="resultArea">
+
+</div>
+
+<script>
+
+/* 当前服务器 */
+
+let currentServer = "亚服";
+
+/* 切换服务器 */
+
+function changeServer(btn,server){
+
+document
+.querySelectorAll(".serverBtn")
+.forEach(b=>{
+
+b.classList.remove(
+"activeServer"
+);
+
+});
+
+btn.classList.add(
+"activeServer"
+);
+
+currentServer = server;
+
+}
+
+/* 所有角色 */
+
+const roles = [
+
+"雷电将军",
+"芙宁娜",
+"那维莱特",
+"夜兰",
+"甘雨",
+"钟离",
+"纳西妲",
+"枫原万叶",
+"胡桃",
+"神里绫华",
+"流浪者",
+"魈",
+"优菈",
+"宵宫",
+"白术",
+"阿蕾奇诺",
+"克洛琳德",
+"莱欧斯利",
+"刻晴",
+"迪卢克",
+"莫娜",
+"琴",
+"七七",
+"提纳里",
+"珊瑚宫心海",
+"申鹤",
+"达达利亚",
+"妮露",
+"千织",
+"闲云",
+"菲谢尔",
+"香菱",
+"班尼特",
+"行秋",
+"久岐忍",
+"绮良良",
+"砂糖",
+"北斗",
+"重云",
+"凝光",
+"烟绯"
+
+];
+
+/* 所有武器 */
+
+const weapons = [
+
+"薙草之稻光",
+"若水",
+"护摩之杖",
+"雾切之回光",
+"苍古自由之誓",
+"赤沙之杖",
+"天空之翼",
+"狼的末路",
+"磐岩结绿",
+"和璞鸢",
+"波乱月白经津",
+"裁叶萃光",
+"圣显之钥",
+"静水流涌之辉",
+"图莱杜拉的回忆",
+"赤角石溃杵",
+"飞雷之弦振",
+"冬极白星",
+"天空之刃",
+"天空之卷"
+
+];
+
+/* 渲染 */
+
+const roleGrid =
+document.getElementById(
+"roleGrid"
+);
+
+const weaponGrid =
+document.getElementById(
+"weaponGrid"
+);
+
+roles.forEach(role=>{
+
+roleGrid.innerHTML += `
+
+<div class="tag"
+onclick="selectTag(this,'${role}')">
+
+${role}
+
+</div>
+
+`;
+
+});
+
+weapons.forEach(w=>{
+
+weaponGrid.innerHTML += `
+
+<div class="tag"
+onclick="selectTag(this,'${w}')">
+
+${w}
+
+</div>
+
+`;
+
+});
+
+/* 选择 */
+
+let selected = [];
+
+function selectTag(el,name){
+
+el.classList.toggle(
+"selected"
+);
+
+if(selected.includes(name)){
+
+selected =
+selected.filter(
+i=>i!==name
+);
+
+}else{
+
+selected.push(name);
+
+}
+
+}
+
+/* 模拟账号数据库 */
+
+const accounts = [
+
+{
+
+server:"亚服",
+
+code:"A001",
+
+uid:"865432178",
+
+level:"60",
+
+roles:[
+
+"雷电将军(2命)",
+"甘雨(1命)",
+"夜兰(0命)",
+"那维莱特(0命)",
+"钟离(0命)"
+
+],
+
+weapons:[
+
+"薙草之稻光",
+"若水"
+
+]
+
+},
+
+{
+
+server:"亚服",
+
+code:"A002",
+
+uid:"923456781",
+
+level:"60",
+
+roles:[
+
+"芙宁娜(2命)",
+"纳西妲(0命)",
+"枫原万叶(1命)"
+
+],
+
+weapons:[
+
+"静水流涌之辉",
+"苍古自由之誓"
+
+]
+
+},
+
+{
+
+server:"欧服",
+
+code:"EU001",
+
+uid:"765432198",
+
+level:"58",
+
+roles:[
+
+"胡桃(1命)",
+"夜兰(0命)",
+"钟离(0命)"
+
+],
+
+weapons:[
+
+"护摩之杖",
+"若水"
+
+]
+
+}
+
+];
+
+/* 搜索 */
+
+function searchAccount(){
+
+const resultArea =
+document.getElementById(
+"resultArea"
+);
+
+resultArea.innerHTML = "";
+
+/* 过滤 */
+
+const result = accounts.filter(acc=>{
+
+/* 服务器 */
+
+if(acc.server !== currentServer){
+
+return false;
+
+}
+
+/* 搜索角色武器 */
+
+for(let item of selected){
+
+const hasRole =
+acc.roles.some(
+r=>r.includes(item)
+);
+
+const hasWeapon =
+acc.weapons.includes(item);
+
+if(!hasRole &&
+!hasWeapon){
+
+return false;
+
+}
+
+}
+
+return true;
+
+});
+
+/* 显示 */
+
+if(result.length===0){
+
+resultArea.innerHTML = `
+
+<div style="
+font-size:30px;
+padding:50px;
+">
+
+未找到相关账号
+
+</div>
+
+`;
+
+return;
+
+}
+
+result.forEach(acc=>{
+
+let roleHTML = "";
+
+acc.roles.forEach(r=>{
+
+roleHTML += `
+
+<div class="roleText">
+
+${r}
+
+</div>
+
+`;
+
+});
+
+let weaponHTML = "";
+
+acc.weapons.forEach(w=>{
+
+weaponHTML += `
+
+<div class="weaponText">
+
+${w}
+
+</div>
+
+`;
+
+});
+
+resultArea.innerHTML += `
+
+<div class="card">
+
+<div class="cardTop">
+
+<div class="code">
+编号：${acc.code}
+</div>
+
+<div class="uid">
+UID：${acc.uid}
+</div>
+
+</div>
+
+<div class="infoBox">
+
+<div class="serverText">
+
+服务器：
+${acc.server}
+
+</div>
+
+<div class="level">
+
+冒险等级：
+${acc.level}
+
+</div>
+
+<h3>
+角色信息
+</h3>
+
+${roleHTML}
+
+<h3 style="
+margin-top:20px;
+">
+武器信息
+</h3>
+
+${weaponHTML}
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
