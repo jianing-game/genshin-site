@@ -106,11 +106,20 @@ border:2px solid #00ff88;
 background:#2563eb;
 }
 
+/* 按钮区域 */
+
+.btnBox{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+}
+
 /* 搜索按钮 */
 
 .searchBtn{
 display:block;
-margin:40px auto;
+margin:40px 0;
 padding:18px 60px;
 font-size:28px;
 border:none;
@@ -271,7 +280,9 @@ id="weaponGrid">
 
 </div>
 
-<!-- 搜索 -->
+<!-- 按钮 -->
+
+<div class="btnBox">
 
 <button class="searchBtn"
 onclick="searchAccount()">
@@ -279,6 +290,22 @@ onclick="searchAccount()">
 搜索账号
 
 </button>
+
+<button class="searchBtn"
+onclick="clearSelect()"
+style="
+background:linear-gradient(
+45deg,
+#dc2626,
+#ef4444
+);
+">
+
+一键清空
+
+</button>
+
+</div>
 
 <!-- 结果 -->
 
@@ -754,6 +781,29 @@ ${weaponHTML}
 `;
 
 });
+
+}
+
+/* 一键清空 */
+
+function clearSelect(){
+
+selected = [];
+
+document
+.querySelectorAll(".item")
+.forEach(item=>{
+
+item.classList.remove(
+"selected"
+);
+
+});
+
+document
+.getElementById(
+"resultArea"
+).innerHTML = "";
 
 }
 
