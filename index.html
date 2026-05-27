@@ -1,292 +1,3 @@
-<!DOCTYPE html>
-<html lang="zh">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>原神选号系统</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-background:#0f172a;
-font-family:"Microsoft YaHei";
-color:white;
-}
-
-/* 顶部 */
-
-.top{
-height:90px;
-background:#111827;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:40px;
-font-weight:bold;
-color:#ffd166;
-}
-
-/* 服务器 */
-
-.serverBox{
-display:flex;
-justify-content:center;
-gap:20px;
-padding:30px;
-flex-wrap:wrap;
-}
-
-.serverBtn{
-padding:15px 35px;
-border:none;
-border-radius:14px;
-font-size:22px;
-cursor:pointer;
-background:#1e293b;
-color:white;
-transition:.3s;
-}
-
-.serverBtn:hover{
-background:#2563eb;
-}
-
-.active{
-background:#2563eb;
-}
-
-/* 区域 */
-
-.area{
-padding:30px;
-}
-
-.title{
-font-size:30px;
-margin-bottom:20px;
-color:#7dd3fc;
-}
-
-/* 网格 */
-
-.grid{
-display:grid;
-grid-template-columns:
-repeat(auto-fill,minmax(130px,1fr));
-gap:16px;
-}
-
-.item{
-background:#1e293b;
-padding:16px;
-border-radius:14px;
-text-align:center;
-cursor:pointer;
-transition:.3s;
-border:2px solid transparent;
-}
-
-.item:hover{
-transform:scale(1.05);
-}
-
-.selected{
-border:2px solid #00ff88;
-background:#2563eb;
-}
-
-/* 搜索按钮 */
-
-.searchBtn{
-display:block;
-margin:40px auto;
-padding:18px 60px;
-font-size:28px;
-border:none;
-border-radius:18px;
-cursor:pointer;
-background:linear-gradient(
-45deg,
-#2563eb,
-#7c3aed
-);
-color:white;
-}
-
-/* 搜索结果 */
-
-.resultArea{
-padding:30px;
-display:grid;
-grid-template-columns:
-repeat(auto-fill,minmax(360px,1fr));
-gap:25px;
-}
-
-.card{
-background:#1e293b;
-border-radius:22px;
-overflow:hidden;
-}
-
-.cardTop{
-padding:20px;
-background:linear-gradient(
-45deg,
-#2563eb,
-#7c3aed
-);
-}
-
-.code{
-font-size:28px;
-font-weight:bold;
-}
-
-.uid{
-margin-top:10px;
-font-size:18px;
-}
-
-.info{
-padding:20px;
-line-height:2;
-}
-
-.role{
-background:#0f172a;
-padding:10px;
-border-radius:10px;
-margin-bottom:10px;
-}
-
-.weapon{
-background:#111827;
-padding:10px;
-border-radius:10px;
-margin-bottom:10px;
-color:#ffd166;
-}
-
-.server{
-color:#00ff88;
-font-size:20px;
-margin-bottom:10px;
-}
-
-.level{
-font-size:22px;
-color:#7dd3fc;
-margin-bottom:20px;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="top">
-
-原神选号系统
-
-</div>
-
-<!-- 服务器 -->
-
-<div class="serverBox">
-
-<button class="serverBtn active"
-onclick="changeServer(this,'亚服')">
-
-亚服
-
-</button>
-
-<button class="serverBtn"
-onclick="changeServer(this,'欧服')">
-
-欧服
-
-</button>
-
-<button class="serverBtn"
-onclick="changeServer(this,'美服')">
-
-美服
-
-</button>
-
-<button class="serverBtn"
-onclick="changeServer(this,'港澳台服')">
-
-港澳台服
-
-</button>
-
-</div>
-
-<!-- 角色 -->
-
-<div class="area">
-
-<div class="title">
-
-选择角色
-
-</div>
-
-<div class="grid"
-id="roleGrid">
-
-</div>
-
-</div>
-
-<!-- 武器 -->
-
-<div class="area">
-
-<div class="title">
-
-选择武器
-
-</div>
-
-<div class="grid"
-id="weaponGrid">
-
-</div>
-
-</div>
-
-<!-- 搜索 -->
-
-<button class="searchBtn"
-onclick="searchAccount()">
-
-搜索账号
-
-</button>
-
-<!-- 结果 -->
-
-<div class="resultArea"
-id="resultArea">
-
-</div>
-
 <script>
 
 /* 当前服务器 */
@@ -373,7 +84,7 @@ const roles = [
 "莫娜",
 "琴",
 "迪卢克",
-  
+
 "砂糖",
 "鹿野院平藏",
 "早柚",
@@ -421,203 +132,144 @@ const roles = [
 "重云",
 "米卡",
 "莱依拉",
-"菲米尼",
+"菲米尼"
 
 ];
 
-/* 全武器 */
+/* 五星武器 */
+
+const fiveStarWeapons = [
+
+"风鹰剑",
+"天空之刃",
+"斫峰之刃",
+"磐岩结绿",
+"雾切之回光",
+"波乱月白经津",
+"圣显之钥",
+"裁叶萃光",
+"静水流涌之辉",
+"有乐御簾切",
+"苍古自由之誓",
+"岩峰巡歌",
+"苍耀",
+"黑蚀",
+"峰刃白铁",
+"息燧之笛",
+
+"天空之傲",
+"狼的末路",
+"无工之剑",
+"松籁响起之时",
+"赤角石溃杵",
+"苇海信标",
+"裁断",
+"山王长牙",
+"焚曜千阳",
+"苇海巨斧",
+"赦罪巨剑",
+
+"天空之脊",
+"和璞鸢",
+"贯虹之槊",
+"护摩之杖",
+"薙草之稻光",
+"息灾",
+"赤沙之杖",
+"柔灯挽歌",
+"香韵奏者",
+"镇山之钉",
+"玉衡之锋",
+"赤月之形",
+
+"天空之卷",
+"四风原典",
+"尘世之锁",
+"不灭月华",
+"神乐之真意",
+"千夜浮梦",
+"图莱杜拉的回忆",
+"碧落之珑",
+"金流监督",
+"万世流涌大典",
+"鹤鸣余音",
+"冲浪时光",
+"尘光七谕",
+"祭星者之望",
+"终焉圣歌录",
+
+"阿莫斯之弓",
+"天空之翼",
+"终末嗟叹之诗",
+"飞雷之弦振",
+"冬极白星",
+"若水",
+"猎人之径",
+"最初的大魔术",
+"白雨心弦",
+"星鹫赤羽",
+"碎链",
+"灵息之刺",
+"星轨王座"
+
+];
+
+/* 四星武器 */
+
+const fourStarWeapons = [
+
+"西风剑",
+"祭礼剑",
+"笛剑",
+"匣里龙吟",
+"黑剑",
+"宗室长剑",
+"试作斩岩",
+"铁蜂刺",
+"暗巷闪光",
+"腐殖之剑",
+"辰砂之纺锤",
+"天目影打刀",
+
+"西风大剑",
+"祭礼大剑",
+"钟剑",
+"雨裁",
+"螭骨剑",
+"宗室大剑",
+"试作古华",
+"白影剑",
+
+"西风长枪",
+"匣里灭辰",
+"祭礼枪",
+"决斗之枪",
+"宗室猎枪",
+"流月针",
+"试作星镰",
+
+"西风秘典",
+"祭礼残章",
+"流浪乐章",
+"匣里日月",
+"昭心",
+"忍冬之果",
+
+"西风猎弓",
+"祭礼弓",
+"绝弦",
+"弓藏",
+"苍翠猎弓",
+"宗室长弓"
+
+];
+
+/* 合并武器 */
 
 const weapons = [
-
- "风鹰剑",
-  "天空之刃",
-  "斫峰之刃",
-  "磐岩结绿",
-  "雾切之回光",
-  "波乱月白经津",
-  "圣显之钥",
-  "裁叶萃光",
-  "静水流涌之辉",
-  "有乐御簾切",
-  "苍古自由之誓",
-  "岩峰巡歌",
-  "苍耀",
-  "黑蚀",
-  "峰刃白铁",
-  "息燧之笛",
-
-  // 双手剑
-  "天空之傲",
-  "狼的末路",
-  "无工之剑",
-  "松籁响起之时",
-  "赤角石溃杵",
-  "苇海信标",
-  "裁断",
-  "山王长牙",
-  "焚曜千阳",
-  "苇海巨斧",
-  "赦罪巨剑",
-
-  // 长柄武器
-  "天空之脊",
-  "和璞鸢",
-  "贯虹之槊",
-  "护摩之杖",
-  "薙草之稻光",
-  "息灾",
-  "赤沙之杖",
-  "柔灯挽歌",
-  "香韵奏者",
-  "镇山之钉",
-  "玉衡之锋",
-  "赤月之形",
-
-  // 法器
-  "天空之卷",
-  "四风原典",
-  "尘世之锁",
-  "不灭月华",
-  "神乐之真意",
-  "千夜浮梦",
-  "图莱杜拉的回忆",
-  "碧落之珑",
-  "金流监督",
-  "万世流涌大典",
-  "鹤鸣余音",
-  "冲浪时光",
-  "尘光七谕",
-  "祭星者之望",
-  "终焉圣歌录",
-
-  // 弓
-  "阿莫斯之弓",
-  "天空之翼",
-  "终末嗟叹之诗",
-  "飞雷之弦振",
-  "冬极白星",
-  "若水",
-  "猎人之径",
-  "最初的大魔术",
-  "白雨心弦",
-  "星鹫赤羽",
-  "碎链",
-  "灵息之刺",
-  "星轨王座",
-  const fourStarWeapons = [
-
-  // 单手剑
-  "西风剑",
-  "祭礼剑",
-  "笛剑",
-  "匣里龙吟",
-  "黑剑",
-  "宗室长剑",
-  "试作斩岩",
-  "铁蜂刺",
-  "暗巷闪光",
-  "腐殖之剑",
-  "辰砂之纺锤",
-  "天目影打刀",
-  "恶王丸",
-  "笼钓瓶一心",
-  "原木刀",
-  "西福斯的月光",
-  "船坞长剑",
-  "狼牙",
-  "灰河渡手",
-  "厄水之祸",
-  "弥坚骨",
-  "息燧之笛·四星版",
-  "笛音之誓",
-  "黑岩长剑",
-
-  // 双手剑
-  "西风大剑",
-  "祭礼大剑",
-  "钟剑",
-  "雨裁",
-  "螭骨剑",
-  "宗室大剑",
-  "试作古华",
-  "白影剑",
-  "千岩古剑",
-  "衔珠海皇",
-  "桂木斩长正",
-  "恶王丸",
-  "森林王器",
-  "玛海菈的水色",
-  "饰铁之花",
-  "聊聊棒",
-  "便携动力锯",
-  "浪影阔剑",
-  "撼地者",
-  "黑岩斩刀",
-
-  // 长柄武器
-  "西风长枪",
-  "匣里灭辰",
-  "祭礼枪",
-  "决斗之枪",
-  "宗室猎枪",
-  "流月针",
-  "试作星镰",
-  "千岩长枪",
-  "渔获",
-  "断浪长鳍",
-  "喜多院十文字",
-  "贯月矢",
-  "风信之锋",
-  "峡湾长歌",
-  "勘探钻机",
-  "沙中伟贤的对答",
-  "且住亭御咄",
-  "黑岩刺枪",
-
-  // 法器
-  "西风秘典",
-  "祭礼残章",
-  "流浪乐章",
-  "匣里日月",
-  "昭心",
-  "忍冬之果",
-  "宗室秘法录",
-  "万国诸海图谱",
-  "试作金珀",
-  "暗巷的酒与诗",
-  "白辰之环",
-  "证誓之明瞳",
-  "盈满之实",
-  "流浪的晚星",
-  "遗祀玉珑",
-  "纯水流华",
-  "无垠蔚蓝之歌",
-  "乘浪的回旋",
-  "黑岩绯玉",
-
-  // 弓
-  "西风猎弓",
-  "祭礼弓",
-  "绝弦",
-  "弓藏",
-  "苍翠猎弓",
-  "宗室长弓",
-  "钢轮弓",
-  "试作澹月",
-  "暗巷猎手",
-  "幽夜华尔兹",
-  "曚云之月",
-  "破魔之弓",
-  "落霞",
-  "王下近侍",
-  "竭泽",
-  "烈阳之嗣",
-  "静谧之曲",
-  "测距规",
-  "筑云",
-  "黑岩战弓"
-  
-  ];
+...fiveStarWeapons,
+...fourStarWeapons
+];
 
 /* 渲染角色 */
 
@@ -746,33 +398,6 @@ weapons:[
 
 ]
 
-},
-
-{
-
-server:"欧服",
-
-code:"EU001",
-
-uid:"765432198",
-
-level:"58",
-
-roles:[
-
-"胡桃(1命)",
-"夜兰(0命)",
-"钟离(0命)"
-
-],
-
-weapons:[
-
-"护摩之杖",
-"若水"
-
-]
-
 }
 
 ];
@@ -787,8 +412,6 @@ document.getElementById(
 );
 
 resultArea.innerHTML = "";
-
-/* 搜索 */
 
 const result =
 accounts.filter(acc=>{
@@ -944,6 +567,3 @@ ${weaponHTML}
 }
 
 </script>
-
-</body>
-</html>
