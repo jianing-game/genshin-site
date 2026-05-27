@@ -173,12 +173,36 @@ padding:20px;
 line-height:2;
 }
 
+/* 角色 */
+
 .role{
 background:#0f172a;
-padding:10px;
-border-radius:10px;
-margin-bottom:10px;
+padding:12px;
+border-radius:12px;
+margin-bottom:12px;
+position:relative;
+font-size:18px;
 }
+
+/* 命座角标 */
+
+.mingzuo{
+position:absolute;
+top:8px;
+right:10px;
+background:#2563eb;
+color:white;
+width:28px;
+height:28px;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:16px;
+font-weight:bold;
+}
+
+/* 武器 */
 
 .weapon{
 background:#111827;
@@ -398,7 +422,7 @@ const roles = [
 "茜特菈莉",
 "爱可菲",
 "丝柯克",
-"七七",
+"七七"
 
 ];
 
@@ -422,7 +446,6 @@ const weapons = [
 "息燧之笛",
 "松籁响起之时",
 "赤角石溃杵",
-"苇海信标",
 "苇海信标",
 "山王长牙",
 "焚曜千阳",
@@ -456,7 +479,7 @@ const weapons = [
 "猎人之径",
 "最初的大魔术",
 "白雨心弦",
-"星鹫赤羽",
+"星鹫赤羽"
 
 ];
 
@@ -690,19 +713,47 @@ result.forEach(acc=>{
 
 let roleHTML = "";
 
+/* 角色 */
+
 acc.roles.forEach(r=>{
+
+/* 自动识别命座 */
+
+let mingzuo = "";
+
+let roleName = r;
+
+const match =
+r.match(/([0-6])命/);
+
+if(match){
+
+mingzuo = match[1];
+
+roleName =
+r.replace(/\([0-6]命\)/,"");
+
+}
+
+/* 输出角色 */
 
 roleHTML += `
 
 <div class="role">
 
-${r}
+${roleName}
+
+${mingzuo ?
+`<div class="mingzuo">${mingzuo}</div>`
+: ""}
 
 </div>
 
 `;
 
 });
+
+/* 武器 */
 
 let weaponHTML = "";
 
@@ -719,6 +770,8 @@ ${w}
 `;
 
 });
+
+/* 卡片 */
 
 resultArea.innerHTML += `
 
