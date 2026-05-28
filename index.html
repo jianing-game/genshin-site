@@ -8,46 +8,196 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:#0f172a;font-family:"Microsoft YaHei";color:white;}
-.top{padding:25px;background:#111827;text-align:center;}
-.topTitle{font-size:42px;font-weight:bold;color:#ffd166;}
-.shopName{margin-top:10px;font-size:22px;color:white;}
-.searchBox{padding:25px;text-align:center;background:#111827;}
-.searchInput{width:80%;max-width:600px;padding:16px;font-size:24px;border-radius:14px;border:none;}
-.serverBox{display:flex;justify-content:center;gap:20px;padding:30px;flex-wrap:wrap;}
-.serverBtn{padding:15px 35px;border:none;border-radius:14px;font-size:22px;cursor:pointer;background:#1e293b;color:white;}
-.serverBtn:hover,.active{background:#2563eb;}
-.area{padding:30px;}
-.title{font-size:30px;margin-bottom:20px;color:#7dd3fc;}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:16px;}
-.item{background:#1e293b;padding:16px;border-radius:14px;text-align:center;cursor:pointer;border:2px solid transparent;}
-.item:hover{transform:scale(1.05);}
-.selected{border:2px solid #00ff88;background:#2563eb;}
-.btnBox{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
-.searchBtn{margin:35px 0;padding:18px 60px;font-size:28px;border:none;border-radius:18px;cursor:pointer;background:linear-gradient(45deg,#2563eb,#7c3aed);color:white;}
-.resultArea{padding:30px;display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:25px;}
-.card{background:#1e293b;border-radius:22px;overflow:hidden;}
-.cardTop{padding:20px;background:linear-gradient(45deg,#2563eb,#7c3aed);}
-.code{font-size:28px;font-weight:bold;}
-.info{padding:20px;line-height:2;}
-.role{background:#0f172a;padding:12px;border-radius:12px;margin-bottom:12px;position:relative;font-size:18px;}
-.mingzuo{position:absolute;top:8px;right:10px;background:#2563eb;color:white;width:28px;height:28px;border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:16px;font-weight:bold;}
-.weapon{background:#111827;padding:10px;border-radius:10px;margin-bottom:10px;color:#ffd166;}
-.server{color:#00ff88;font-size:20px;margin-bottom:10px;}
-.level{font-size:22px;color:#7dd3fc;margin-bottom:20px;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#0f172a;
+font-family:"Microsoft YaHei";
+color:white;
+}
+
+.top{
+padding:25px;
+background:#111827;
+text-align:center;
+}
+
+.topTitle{
+font-size:42px;
+font-weight:bold;
+color:#ffd166;
+}
+
+.shopName{
+margin-top:10px;
+font-size:22px;
+color:white;
+}
+
+.searchBox{
+padding:25px;
+text-align:center;
+background:#111827;
+}
+
+.searchInput{
+width:80%;
+max-width:600px;
+padding:16px;
+font-size:24px;
+border-radius:14px;
+border:none;
+}
+
+.serverBox{
+display:flex;
+justify-content:center;
+gap:20px;
+padding:30px;
+flex-wrap:wrap;
+}
+
+.serverBtn{
+padding:15px 35px;
+border:none;
+border-radius:14px;
+font-size:22px;
+cursor:pointer;
+background:#1e293b;
+color:white;
+}
+
+.serverBtn:hover,
+.active{
+background:#2563eb;
+}
+
+.area{
+padding:30px;
+}
+
+.title{
+font-size:30px;
+margin-bottom:20px;
+color:#7dd3fc;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+gap:16px;
+}
+
+.item{
+background:#1e293b;
+padding:16px;
+border-radius:14px;
+text-align:center;
+cursor:pointer;
+border:2px solid transparent;
+}
+
+.item:hover{
+transform:scale(1.05);
+}
+
+.selected{
+border:2px solid #00ff88;
+background:#2563eb;
+}
+
+.btnBox{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.searchBtn{
+margin:35px 0;
+padding:18px 60px;
+font-size:28px;
+border:none;
+border-radius:18px;
+cursor:pointer;
+background:linear-gradient(45deg,#2563eb,#7c3aed);
+color:white;
+}
+
+.resultArea{
+padding:30px;
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(360px,1fr));
+gap:25px;
+}
+
+.card{
+background:#1e293b;
+border-radius:22px;
+overflow:hidden;
+}
+
+.cardTop{
+padding:20px;
+background:linear-gradient(45deg,#2563eb,#7c3aed);
+}
+
+.code{
+font-size:28px;
+font-weight:bold;
+}
+
+.info{
+padding:20px;
+line-height:2;
+}
+
+.server{
+color:#00ff88;
+font-size:20px;
+margin-bottom:10px;
+}
+
+.level{
+font-size:22px;
+color:#7dd3fc;
+margin-bottom:20px;
+}
+
+.roleText{
+display:inline-block;
+margin-right:14px;
+margin-bottom:12px;
+font-size:22px;
+color:white;
+}
+
+.weaponText{
+display:inline-block;
+margin-right:14px;
+margin-bottom:12px;
+font-size:22px;
+color:#ffd166;
+}
 </style>
 </head>
 
 <body>
 
 <div class="top">
-  <div class="topTitle">原神选号系统</div>
-  <div class="shopName">佳宁手游</div>
+<div class="topTitle">原神选号系统</div>
+<div class="shopName">佳宁手游</div>
 </div>
 
 <div class="searchBox">
-  <input id="keyword" class="searchInput" placeholder="输入角色名或武器名，例如：菲林斯 / 若水 / 林尼">
+<input
+id="keyword"
+class="searchInput"
+placeholder="输入角色名或武器名，例如：菲林斯 / 若水 / 林尼">
 </div>
 
 <div class="serverBox">
@@ -69,18 +219,35 @@ body{background:#0f172a;font-family:"Microsoft YaHei";color:white;}
 
 <div class="btnBox">
 <button class="searchBtn" onclick="searchAccount()">查找账号</button>
-<button class="searchBtn" onclick="clearSelect()" style="background:linear-gradient(45deg,#dc2626,#ef4444);">一键清空</button>
+
+<button
+class="searchBtn"
+onclick="clearSelect()"
+style="background:linear-gradient(45deg,#dc2626,#ef4444);">
+一键清空
+</button>
 </div>
 
 <div class="resultArea" id="resultArea"></div>
 
 <script>
-const SUPABASE_URL = "https://yhjndqlaklzlqlcryeno.supabase.co";
-const SUPABASE_KEY = "sb_publishable_is-upvPPX51nbYIHAg-4cw_SoQABR6h";
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const SUPABASE_URL =
+"https://yhjndqlaklzlqlcryeno.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_is-upvPPX51nbYIHAg-4cw_SoQABR6h";
+
+const db =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
 
 let currentServer = "亚服";
+
 let selected = [];
+
 let accounts = [];
 
 const roles = [
@@ -88,130 +255,241 @@ const roles = [
 ];
 
 const weapons = [
-"斫峰之刃","磐岩结绿","雾切之回光","波乱月白经津","圣显之钥","裁叶萃光","静水流涌之辉","有乐御簾切","苍古自由之誓","岩峰巡歌","苍耀","黑蚀","峰刃白铁","息燧之笛","松籁响起之时","赤角石溃杵","苇海信标","山王长牙","焚曜千阳","苇海巨斧","赦罪巨剑","贯虹之朔","护摩之杖","薙草之稻光","息灾","赤沙之杖","柔灯挽歌","香韵奏者","镇山之钉","尘世之锁","赤月之形","不灭月华","神乐之真意","千夜浮梦","图莱杜拉的回忆","碧落之珑","金流监督","万世流涌大典","冲浪时光","鹤鸣余音","祭星者之望","终末嗟叹之诗","飞雷之弦振","冬极白星","若水","猎人之径","最初的大魔术","白雨心弦","星鹫赤羽","血染荒城","狼的武功歌","天空之傲","裁断","风鹰剑",
+"斫峰之刃","磐岩结绿","雾切之回光","波乱月白经津","圣显之钥","裁叶萃光","静水流涌之辉","有乐御簾切","苍古自由之誓","岩峰巡歌","苍耀","黑蚀","峰刃白铁","息燧之笛","松籁响起之时","赤角石溃杵","苇海信标","山王长牙","焚曜千阳","苇海巨斧","赦罪巨剑","贯虹之朔","护摩之杖","薙草之稻光","息灾","赤沙之杖","柔灯挽歌","香韵奏者","镇山之钉","尘世之锁","赤月之形","不灭月华","神乐之真意","千夜浮梦","图莱杜拉的回忆","碧落之珑","金流监督","万世流涌大典","冲浪时光","鹤鸣余音","祭星者之望","终末嗟叹之诗","飞雷之弦振","冬极白星","若水","猎人之径","最初的大魔术","白雨心弦","星鹫赤羽","血染荒城","狼的武功歌","天空之傲","裁断","风鹰剑"
 ];
 
 function renderOptions(){
-  roles.forEach(role=>{
-    roleGrid.innerHTML += `<div class="item" onclick="selectItem(this,'${role}')">${role}</div>`;
-  });
-  weapons.forEach(weapon=>{
-    weaponGrid.innerHTML += `<div class="item" onclick="selectItem(this,'${weapon}')">${weapon}</div>`;
-  });
+
+roles.forEach(role=>{
+
+roleGrid.innerHTML += `
+<div class="item"
+onclick="selectItem(this,'${role}')">
+${role}
+</div>
+`;
+});
+
+weapons.forEach(weapon=>{
+
+weaponGrid.innerHTML += `
+<div class="item"
+onclick="selectItem(this,'${weapon}')">
+${weapon}
+</div>
+`;
+});
 }
 
 function changeServer(btn,server){
-  document.querySelectorAll(".serverBtn").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-  currentServer = server;
+
+document.querySelectorAll(".serverBtn")
+.forEach(b=>b.classList.remove("active"));
+
+btn.classList.add("active");
+
+currentServer = server;
 }
 
 function selectItem(el,name){
-  el.classList.toggle("selected");
-  if(selected.includes(name)){
-    selected = selected.filter(i=>i!==name);
-  }else{
-    selected.push(name);
-  }
+
+el.classList.toggle("selected");
+
+if(selected.includes(name)){
+
+selected = selected.filter(i=>i!==name);
+
+}else{
+
+selected.push(name);
+}
 }
 
 async function loadAccounts(){
-  const resultArea = document.getElementById("resultArea");
-  resultArea.innerHTML = `<div style="font-size:28px;padding:30px;">正在加载账号...</div>`;
 
-  const { data, error } = await db.from("accounts").select("*").order("id",{ascending:false});
+const resultArea =
+document.getElementById("resultArea");
 
-  if(error){
-    resultArea.innerHTML = `<div style="font-size:24px;color:red;padding:30px;">读取失败：${error.message}</div>`;
-    return;
-  }
+resultArea.innerHTML =
+`<div style="font-size:28px;padding:30px;">正在加载账号...</div>`;
 
-  accounts = data || [];
-  resultArea.innerHTML = `<div style="font-size:28px;padding:30px;">账号已加载，请输入角色/武器，或点击角色武器后查找</div>`;
+const { data,error } = await db
+.from("accounts")
+.select("*")
+.order("id",{ascending:false});
+
+if(error){
+
+resultArea.innerHTML =
+`<div style="font-size:24px;color:red;padding:30px;">读取失败：${error.message}</div>`;
+
+return;
+}
+
+accounts = data || [];
+
+resultArea.innerHTML =
+`<div style="font-size:28px;padding:30px;">账号已加载，请输入角色/武器，或点击角色武器后查找</div>`;
 }
 
 function searchAccount(){
-  const keyword = document.getElementById("keyword").value.trim();
-  const resultArea = document.getElementById("resultArea");
-  resultArea.innerHTML = "";
 
-  const result = accounts.filter(acc=>{
-    if(acc.server !== currentServer) return false;
-    if(acc.status === "下架") return false;
+const keyword =
+document.getElementById("keyword")
+.value
+.trim();
 
-    const accRoles = acc.roles || [];
-    const accWeapons = acc.weapons || [];
+const resultArea =
+document.getElementById("resultArea");
 
-    if(keyword){
-      const hitRole = accRoles.some(r=>r.includes(keyword));
-      const hitWeapon = accWeapons.some(w=>w.includes(keyword));
-      if(!hitRole && !hitWeapon) return false;
-    }
+resultArea.innerHTML = "";
 
-    for(let item of selected){
-      const hasRole = accRoles.some(r=>r.includes(item));
-      const hasWeapon = accWeapons.includes(item);
-      if(!hasRole && !hasWeapon) return false;
-    }
+const result = accounts.filter(acc=>{
 
-    return true;
-  });
+if(acc.server !== currentServer)
+return false;
 
-  if(result.length===0){
-    resultArea.innerHTML = `<div style="font-size:30px;padding:50px;">未找到相关账号</div>`;
-    return;
-  }
+if(acc.status === "下架")
+return false;
 
-  result.forEach(acc=>{
-    let roleHTML = "";
-    let weaponHTML = "";
+const accRoles = acc.roles || [];
+const accWeapons = acc.weapons || [];
 
-    (acc.roles || []).forEach(r=>{
-      let mingzuo = "";
-      let roleName = r;
-      const match = r.match(/([0-6])命/);
-      if(match){
-        mingzuo = match[1];
-        roleName = r.replace(/\([0-6]命\)/,"");
-      }
+if(keyword){
 
-      roleHTML += `
-      <div class="role">
-        ${roleName}
-        ${mingzuo ? `<div class="mingzuo">${mingzuo}</div>` : ""}
-      </div>`;
-    });
+const hitRole =
+accRoles.some(r=>r.includes(keyword));
 
-    (acc.weapons || []).forEach(w=>{
-      weaponHTML += `<div class="weapon">${w}</div>`;
-    });
+const hitWeapon =
+accWeapons.some(w=>w.includes(keyword));
 
-    resultArea.innerHTML += `
-    <div class="card">
-      <div class="cardTop">
-        <div class="code">编号：${acc.code || ""}</div>
-      </div>
-      <div class="info">
-        <div class="server">服务器：${acc.server || ""}</div>
-        <div class="level">等级：${acc.level || ""}</div>
-        <h3>角色信息</h3>
-        ${roleHTML}
-        <h3 style="margin-top:20px;">武器信息</h3>
-        ${weaponHTML}
-      </div>
-    </div>`;
-  });
+if(!hitRole && !hitWeapon)
+return false;
+}
+
+for(let item of selected){
+
+const hasRole =
+accRoles.some(r=>r.includes(item));
+
+const hasWeapon =
+accWeapons.includes(item);
+
+if(!hasRole && !hasWeapon)
+return false;
+}
+
+return true;
+});
+
+if(result.length===0){
+
+resultArea.innerHTML =
+`<div style="font-size:30px;padding:50px;">未找到相关账号</div>`;
+
+return;
+}
+
+result.forEach(acc=>{
+
+let roleHTML = "";
+
+let weaponHTML = "";
+
+(acc.roles || []).forEach(r=>{
+
+let mingzuo = "";
+
+let roleName = r;
+
+const match =
+r.match(/([0-6])命/);
+
+if(match){
+
+mingzuo = match[1];
+
+roleName =
+r.replace(/\([0-6]命\)/,"");
+}
+
+roleHTML += `
+<span class="roleText">
+${roleName}${mingzuo ? ` ${mingzuo}命` : ""}
+</span>
+`;
+});
+
+(acc.weapons || []).forEach(w=>{
+
+weaponHTML += `
+<span class="weaponText">
+${w}
+</span>
+`;
+});
+
+resultArea.innerHTML += `
+
+<div class="card">
+
+<div class="cardTop">
+<div class="code">
+编号：${acc.code || ""}
+</div>
+</div>
+
+<div class="info">
+
+<div class="server">
+服务器：${acc.server || ""}
+</div>
+
+<div class="level">
+等级：${acc.level || ""}
+</div>
+
+<h3>
+角色信息
+</h3>
+
+<div>
+${roleHTML}
+</div>
+
+<h3 style="margin-top:20px;">
+武器信息
+</h3>
+
+<div>
+${weaponHTML}
+</div>
+
+</div>
+</div>
+`;
+});
 }
 
 function clearSelect(){
-  selected = [];
-  document.getElementById("keyword").value = "";
-  document.querySelectorAll(".item").forEach(item=>item.classList.remove("selected"));
-  document.getElementById("resultArea").innerHTML = "";
+
+selected = [];
+
+document.getElementById("keyword").value = "";
+
+document.querySelectorAll(".item")
+.forEach(item=>{
+
+item.classList.remove("selected");
+});
+
+document.getElementById("resultArea").innerHTML = "";
 }
 
 renderOptions();
+
 loadAccounts();
+
 </script>
 
 </body>
